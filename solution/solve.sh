@@ -1,5 +1,4 @@
 #!/bin/bash
-# CANARY_STRING: polyglot_dep_graph_2025_v1
 
 set -e
 

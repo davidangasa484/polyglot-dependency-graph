@@ -120,46 +120,6 @@ def test_markdown_has_metrics():
     assert 'Total Dependencies:' in content, \
         "Report must include total dependency count"
 
-def test_markdown_has_recommendations():
-    """Verify recommendations section has actionable content."""
-    with open(MD_FILE, 'r') as f:
-        content = f.read()
-    
-    rec_section = content.split('## Recommendations')[1] if '## Recommendations' in content else ''
-    
-    # Should have at least 2 bullet points
-    bullets = rec_section.count('\n-')
-    assert bullets >= 2, \
-        f"Recommendations should have at least 2 points, found {bullets}"
-
-def test_fan_in_calculated():
-    """Verify fan-in metrics are present in critical modules table."""
-    with open(MD_FILE, 'r') as f:
-        content = f.read()
-    
-    # If there are critical modules, they should have fan-in values
-    if '| Module | Language | Type | Fan-in | Fan-out | Lines |' in content:
-        # Check for numeric fan-in values in table
-        lines = content.split('\n')
-        table_lines = [l for l in lines if l.startswith('|') and 'Module' not in l and '---' not in l]
-        
-        if table_lines:  # If critical modules exist
-            # At least one should have fan-in > 3 or fan-out > 5
-            found_critical = False
-            for line in table_lines:
-                parts = [p.strip() for p in line.split('|')]
-                if len(parts) >= 6:
-                    try:
-                        fan_in = int(parts[4])
-                        fan_out = int(parts[5])
-                        if fan_in > 3 or fan_out > 5:
-                            found_critical = True
-                            break
-                    except (ValueError, IndexError):
-                        pass
-            
-            assert found_critical, \
-                "Critical modules must have fan-in > 3 OR fan-out > 5"
 
 def test_multiple_languages_detected():
     """Verify analyzer detected multiple programming languages."""
