@@ -1,0 +1,5 @@
+{
+  "authentication": ["auth", "login", "jwt"],
+  "payment": ["payment", "checkout", "stripe"],
+  "inventory": ["inventory", "product", "stock"]
+}
